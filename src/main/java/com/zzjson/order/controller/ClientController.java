@@ -1,5 +1,6 @@
 package com.zzjson.order.controller;
 
+import com.zzjson.order.config.FeignConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
@@ -45,6 +46,15 @@ public class ClientController {
     @RequestMapping("/config")
     public String config() {
         String result = restTemplate.getForObject("http://PRODUCT/hello", String.class);
+        return result;
+    }
+
+    @Autowired
+    private FeignConfig feignConfig;
+
+    @RequestMapping("/feign")
+    public String feign() {
+        String result = feignConfig.hello();
         return result;
     }
 
