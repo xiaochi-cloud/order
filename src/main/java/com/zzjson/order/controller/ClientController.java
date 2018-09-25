@@ -1,12 +1,17 @@
 package com.zzjson.order.controller;
 
-import com.zzjson.order.config.FeignConfig;
+import com.zzjson.order.client.ProductClient;
+import com.zzjson.order.dto.ProductInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * <p>****************************************************************************</p>
@@ -50,11 +55,11 @@ public class ClientController {
     }
 
     @Autowired
-    private FeignConfig feignConfig;
+    private ProductClient productClient;
 
-    @RequestMapping("/feign")
-    public String feign() {
-        String result = feignConfig.hello();
+    @GetMapping("/feign")
+    public List<ProductInfo> feign() {
+        List<ProductInfo> result = productClient.productInfoList(Arrays.asList("157875196366160022"));
         return result;
     }
 

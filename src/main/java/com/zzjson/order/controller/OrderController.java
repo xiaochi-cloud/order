@@ -1,6 +1,7 @@
 package com.zzjson.order.controller;
 
 import com.zzjson.order.VO.ResultVO;
+import com.zzjson.order.client.ProductClient;
 import com.zzjson.order.converter.OrderFormConvert2OrderDTO;
 import com.zzjson.order.dto.OrderDTO;
 import com.zzjson.order.enums.ResultEnum;
@@ -36,6 +37,8 @@ import java.util.Map;
 public class OrderController {
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private ProductClient productClient;
 
     /**
      * 参数校验
