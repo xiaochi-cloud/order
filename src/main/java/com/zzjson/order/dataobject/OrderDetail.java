@@ -5,7 +5,6 @@ import lombok.Data;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.math.BigDecimal;
-import java.sql.Date;
 
 /**
  * <p>****************************************************************************</p>
@@ -47,7 +46,4 @@ public class OrderDetail {
      * 商品小图
      */
     private String productIcon;
-    private Date createTime;
-    private Date updateTime;
-
 }

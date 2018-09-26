@@ -1,6 +1,7 @@
 package com.zzjson.order.controller;
 
 import com.zzjson.order.client.ProductClient;
+import com.zzjson.order.dto.CartDTO;
 import com.zzjson.order.dto.ProductInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
@@ -59,8 +60,14 @@ public class ClientController {
 
     @GetMapping("/feign")
     public List<ProductInfo> feign() {
-        List<ProductInfo> result = productClient.productInfoList(Arrays.asList("157875196366160022"));
+        List<ProductInfo> result = productClient.listForOrder(Arrays.asList("157875196366160022"));
         return result;
     }
 
+    @GetMapping("/decreaseStock")
+    public String decreaseStock() {
+        CartDTO cartDTO = new CartDTO("157875196366160022", 9);
+        productClient.decreaseStock(Arrays.asList(cartDTO));
+        return "success";
+    }
 }

@@ -1,5 +1,6 @@
 package com.zzjson.order.client;
 
+import com.zzjson.order.dto.CartDTO;
 import com.zzjson.order.dto.ProductInfo;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,5 +21,8 @@ import java.util.List;
 @FeignClient(name = "product")
 public interface ProductClient {
     @PostMapping("/product/listForOrder")
-    List<ProductInfo> productInfoList(List<String> productIdList);
+    List<ProductInfo> listForOrder(List<String> productIdList);
+
+    @PostMapping("/product/decreaseStock")
+    void decreaseStock(List<CartDTO> CartDTO);
 }

@@ -3,7 +3,6 @@ package com.zzjson.order.dto;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 
 /**
  * <p>****************************************************************************</p>
@@ -35,7 +34,4 @@ public class ProductInfo {
      * 类目标号
      */
     private Integer categoryType;
-    private Date createTime;
-    private Date updateTime;
-
 }
