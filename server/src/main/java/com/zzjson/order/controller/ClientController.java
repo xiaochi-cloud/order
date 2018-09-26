@@ -1,8 +1,8 @@
 package com.zzjson.order.controller;
 
-import com.zzjson.order.client.ProductClient;
-import com.zzjson.order.dto.CartDTO;
-import com.zzjson.order.dto.ProductInfo;
+import com.zzjson.product.client.ProductClient;
+import com.zzjson.product.common.DecreaseStockInput;
+import com.zzjson.product.common.ProductInfoOutPut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
@@ -46,27 +46,27 @@ public class ClientController {
         return result;
     }
 
-    @Autowired
-    RestTemplate restTemplate;
+    //@Autowired
+    //RestTemplate restTemplate;
 
-    @RequestMapping("/config")
-    public String config() {
-        String result = restTemplate.getForObject("http://PRODUCT/hello", String.class);
-        return result;
-    }
+    //@RequestMapping("/config")
+    //public String config() {
+    //    String result = restTemplate.getForObject("http://PRODUCT/hello", String.class);
+    //    return result;
+    //}
 
     @Autowired
     private ProductClient productClient;
 
     @GetMapping("/feign")
-    public List<ProductInfo> feign() {
-        List<ProductInfo> result = productClient.listForOrder(Arrays.asList("157875196366160022"));
+    public List<ProductInfoOutPut> feign() {
+        List<ProductInfoOutPut> result = productClient.listForOrder(Arrays.asList("157875196366160022"));
         return result;
     }
 
     @GetMapping("/decreaseStock")
     public String decreaseStock() {
-        CartDTO cartDTO = new CartDTO("157875196366160022", 9);
+        DecreaseStockInput cartDTO = new DecreaseStockInput("157875196366160022", 9);
         productClient.decreaseStock(Arrays.asList(cartDTO));
         return "success";
     }

@@ -1,7 +1,6 @@
 package com.zzjson.order.controller;
 
 import com.zzjson.order.VO.ResultVO;
-import com.zzjson.order.client.ProductClient;
 import com.zzjson.order.converter.OrderFormConvert2OrderDTO;
 import com.zzjson.order.dto.OrderDTO;
 import com.zzjson.order.enums.ResultEnum;
@@ -9,6 +8,7 @@ import com.zzjson.order.exception.OrderException;
 import com.zzjson.order.form.OrderForm;
 import com.zzjson.order.service.OrderService;
 import com.zzjson.order.utils.ResultVoUtil;
+import com.zzjson.product.client.ProductClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
