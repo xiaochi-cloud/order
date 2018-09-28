@@ -8,15 +8,14 @@ import com.zzjson.order.exception.OrderException;
 import com.zzjson.order.form.OrderForm;
 import com.zzjson.order.service.OrderService;
 import com.zzjson.order.utils.ResultVoUtil;
-import com.zzjson.product.client.ProductClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,8 +36,6 @@ import java.util.Map;
 public class OrderController {
     @Autowired
     private OrderService orderService;
-    @Autowired
-    private ProductClient productClient;
 
     /**
      * 参数校验
@@ -48,7 +45,7 @@ public class OrderController {
      * 订单入库
      */
     @PostMapping("/create")
-    public ResultVO create(@Valid OrderForm orderForm, BindingResult bindingResult) {
+    public ResultVO create(@Validated OrderForm orderForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             log.error("创建订单参数错误{},orderForm={}", orderForm);
             throw new OrderException(ResultEnum.PARAM_ERROR.getCode(), bindingResult.getFieldError().getDefaultMessage());
