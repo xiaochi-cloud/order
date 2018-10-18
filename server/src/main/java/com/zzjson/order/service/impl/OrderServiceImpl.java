@@ -16,6 +16,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
@@ -42,12 +43,15 @@ public class OrderServiceImpl implements OrderService {
     private ProductClient productClient;
 
     @Override
+    @Transactional
     public OrderDTO create(OrderDTO orderDTO) {
         //查询商品信息
         List<OrderDetail> orderDetails = orderDTO.getOrderDetailList();
         List<String> productIdList = orderDetails.stream().map(OrderDetail::getProductId).collect(Collectors.toList());
         List<ProductInfoOutPut> productInfos = productClient.listForOrder(productIdList);
-
+        //读redis
+        //减库存，并且把新值重新设置进redis
+        //数据库订单入库异常，手动回滚redis
         BigDecimal orderAmount = new BigDecimal(BigInteger.ZERO);
         String orderId = KeyUtil.getUniqueKey();
         for (OrderDetail orderDetail : orderDetails) {
