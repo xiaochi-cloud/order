@@ -37,7 +37,7 @@ public class JsonUtil {
      */
     public static Object fromJson(String string, TypeReference typeReference) {
         try {
-            return objectMapper.readValue(string,typeReference);
+            return objectMapper.readValue(string, typeReference);
         } catch (IOException e) {
             e.printStackTrace();
         }

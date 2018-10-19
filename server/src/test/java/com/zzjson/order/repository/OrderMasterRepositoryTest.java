@@ -12,6 +12,7 @@ import java.sql.Date;
 public class OrderMasterRepositoryTest extends BaseTest {
     @Autowired
     private OrderMasterRepository repository;
+
     @Test
     public void save() {
         OrderMaster orderMaster = new OrderMaster();

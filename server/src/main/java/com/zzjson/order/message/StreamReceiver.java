@@ -22,6 +22,6 @@ import org.springframework.stereotype.Component;
 public class StreamReceiver {
     @StreamListener("myMessage")
     public void process(Object message) {
-        log.info("StreamReceiver:{}",message);
+        log.info("StreamReceiver:{}", message);
     }
 }

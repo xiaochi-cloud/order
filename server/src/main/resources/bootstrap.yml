@@ -7,9 +7,9 @@ spring:
         enabled: true
         service-id: config
       profile: test
-#    stream:
-#      bindings:
-#        myMessage: order
+  #    stream:
+  #      bindings:
+  #        myMessage: order
   rabbitmq:
     host: localhost
     port: 5672
