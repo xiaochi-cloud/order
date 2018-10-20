@@ -1,7 +1,7 @@
 package com.zzjson.order.repository;
 
 import com.zzjson.order.dataobject.OrderMaster;
-import com.zzjson.order.enums.OrderStatus;
+import com.zzjson.order.enums.OrderStatusEnum;
 import com.zzjson.order.enums.PayStatus;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class OrderMasterRepositoryTest extends BaseTest {
         orderMaster.setBuyerAddress("33");
         orderMaster.setBuyerOpenid("321");
         orderMaster.setOrderAmount(new BigDecimal("0"));
-        orderMaster.setOrderStatus(OrderStatus.CANCLE.getCode());
+        orderMaster.setOrderStatus(OrderStatusEnum.CANCLE.getCode());
         orderMaster.setPayStatus(PayStatus.SUCCESS.getCode());
         orderMaster.setCreateTime(new Date(new java.util.Date().getTime()));
         orderMaster.setUpdateTime(new Date(new java.util.Date().getTime()));

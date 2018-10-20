@@ -3,8 +3,10 @@ package com.zzjson.order.service.impl;
 import com.zzjson.order.dataobject.OrderDetail;
 import com.zzjson.order.dataobject.OrderMaster;
 import com.zzjson.order.dto.OrderDTO;
-import com.zzjson.order.enums.OrderStatus;
+import com.zzjson.order.enums.OrderStatusEnum;
 import com.zzjson.order.enums.PayStatus;
+import com.zzjson.order.enums.ResultEnum;
+import com.zzjson.order.exception.OrderException;
 import com.zzjson.order.repository.OrderDetailRepository;
 import com.zzjson.order.repository.OrderMasterRepository;
 import com.zzjson.order.service.OrderService;
@@ -15,11 +17,13 @@ import com.zzjson.product.common.ProductInfoOutPut;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -75,11 +79,43 @@ public class OrderServiceImpl implements OrderService {
         orderDTO.setOrderId(orderId);
         BeanUtils.copyProperties(orderDTO, orderMaster);
         orderMaster.setOrderAmount(orderAmount);
-        orderMaster.setOrderStatus(OrderStatus.NEW.getCode());
+        orderMaster.setOrderStatus(OrderStatusEnum.NEW.getCode());
         orderMaster.setOrderId(orderId);
         orderMaster.setPayStatus(PayStatus.WAIT.getCode());
 
         orderMasterRepository.save(orderMaster);
+        return orderDTO;
+    }
+
+    @Transactional
+    @Override
+    public OrderDTO finish(String orderId) {
+        //1.查询订单状态
+        Optional<OrderMaster> orderMasterOptional = orderMasterRepository.findById(orderId);
+        if (!orderMasterOptional.isPresent()) {
+            throw new OrderException(ResultEnum.ORDER_NOT_EXIST);
+        }
+
+        //2.判断订单状态
+        OrderMaster orderMaster = orderMasterOptional.get();
+        if (!OrderStatusEnum.NEW.getCode().equals(orderMaster.getOrderStatus())) {
+            throw new OrderException(ResultEnum.ORDER_STATUS_ERROR);
+        }
+
+        //3.修改状态为完结
+        orderMaster.setOrderStatus(OrderStatusEnum.FINISHED.getCode());
+        orderMasterRepository.save(orderMaster);
+
+        //查询订单详情
+        List<OrderDetail> orderDetailList = orderDetailRepository.findByOrderId(orderId);
+        if (CollectionUtils.isEmpty(orderDetailList)) {
+            throw new OrderException(ResultEnum.ORDER_NOT_EXIST);
+        }
+
+        OrderDTO orderDTO = new OrderDTO();
+        BeanUtils.copyProperties(orderMaster, orderDTO);
+        orderDTO.setOrderDetailList(orderDetailList);
+
         return orderDTO;
     }
 }

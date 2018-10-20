@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -60,5 +61,16 @@ public class OrderController {
         Map<String, String> map = new HashMap<>();
         map.put("orderId", orderDTO.getOrderId());
         return ResultVoUtil.success(map);
+    }
+
+    /**
+     * 完结订单
+     *
+     * @param orderId
+     * @return
+     */
+    @PostMapping("/finish")
+    public ResultVO finish(@RequestParam("orderId") String orderId) {
+        return ResultVoUtil.success(orderService.finish(orderId));
     }
 }

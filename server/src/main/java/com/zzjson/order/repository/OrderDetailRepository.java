@@ -3,6 +3,8 @@ package com.zzjson.order.repository;
 import com.zzjson.order.dataobject.OrderDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 /**
  * <p>****************************************************************************</p>
  * <p><b>Copyright © 2010-2018 rollBall team All Rights Reserved<b></p>
@@ -15,5 +17,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * <p>****************************************************************************</p>
  */
 public interface OrderDetailRepository extends JpaRepository<OrderDetail, String> {
-
+    List<OrderDetail> findByOrderId(String orderId);
 }
