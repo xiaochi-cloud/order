@@ -2,6 +2,7 @@ package com.zzjson.order.controller;
 
 import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -30,21 +31,24 @@ public class HystrixController {
     //设置服务熔断
     @HystrixCommand(
             ////commandKey = ""
-            //commandProperties = {
-            //        @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "3000"),
-            //        @HystrixProperty(name = "circuitBreaker.enabled", value = "true"),
-            //        //统计容量阈值
-            //        @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
-            //        ////时间窗口，断路器打开，
-            //        @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "1000"),
-            //        //错误百分比
-            //        @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "60")
-            //}
+            commandProperties = {
+                    @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "3000"),
+                    @HystrixProperty(name = "circuitBreaker.enabled", value = "true"),
+                    //统计容量阈值
+                    @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
+                    ////时间窗口，断路器打开，
+                    @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "1000"),
+                    //错误百分比
+                    @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "60")
+            }
             )
     @GetMapping("/getProductInfoList")
-    public String getProductInfo() {
-        RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.postForObject("http://127.0.0.1:9083/product/listForOrder", Collections.singletonList("157875196366160022"), String.class);
+    public String getProductInfo(Integer num) {
+        if (num % 2 == 0) {
+            RestTemplate restTemplate = new RestTemplate();
+            return restTemplate.postForObject("http://127.0.0.1:9083/product/listForOrder", Collections.singletonList("157875196366160022"), String.class);
+        }
+        return "success";
     }
 
     //private String fallback() {
