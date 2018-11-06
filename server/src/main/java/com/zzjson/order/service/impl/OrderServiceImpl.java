@@ -1,5 +1,7 @@
 package com.zzjson.order.service.impl;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import com.zzjson.order.dataobject.OrderDetail;
 import com.zzjson.order.dataobject.OrderMaster;
 import com.zzjson.order.dto.OrderDTO;
@@ -48,6 +50,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
+    @HystrixCommand(commandProperties = {
+            @HystrixProperty(name = "execution.isolation.thread.interruptOnTimeout",value = "3000")
+    })
     public OrderDTO create(OrderDTO orderDTO) {
         //查询商品信息
         List<OrderDetail> orderDetails = orderDTO.getOrderDetailList();

@@ -6,15 +6,38 @@ spring:
       discovery:
         enabled: true
         service-id: config
-      profile: test
+      profile: dev
   #    stream:
   #      bindings:
   #        myMessage: order
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    guest: guest
-  redis:
-    host: localhost
-    port: 6379
+  zipkin:
+    base-url: http://116.62.221.6:9411/
+  sleuth:
+    sampler:
+      percentage: 1
+#  rabbitmq:
+#    host: localhost
+#    port: 5672
+#    username: guest
+#    guest: guest
+#  redis:
+#    host: localhost
+eureka:
+  client:
+    service-url:
+      defaultZone: http://116.62.221.6:8761/eureka
+#    port: 6379
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 3000
+#      circuitBreaker:
+#        enabled: true
+feign:
+  hystrix:
+    enabled: true
+#management:
+#  context-path: /
